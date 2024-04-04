@@ -9,24 +9,6 @@ using System.CodeDom;
 
 namespace FlappyBird
 {
-    struct Jump
-    {
-        public int startPositionX;
-        public int startPositionY;
-        public double currPositionX;
-        public double currPositionY;
-        public int jumpLeft;
-
-        public Jump(int startPositionX, int startPositionY, int jumpLeft)
-        {
-            this.startPositionX = startPositionX;
-            this.startPositionY = startPositionY;
-            this.currPositionX = 0;
-            this.currPositionY = 0;
-            this.jumpLeft = jumpLeft;
-        }
-    }
-
     class Program
     {
         private const int FRAME_RATE = 30;
