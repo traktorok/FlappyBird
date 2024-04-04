@@ -1,0 +1,7 @@
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\bin\Release\FlappyBird.exe.config
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\bin\Release\FlappyBird.exe
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\bin\Release\FlappyBird.pdb
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Release\FlappyBird.csproj.AssemblyReference.cache
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Release\FlappyBird.csproj.CoreCompileInputs.cache
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Release\FlappyBird.exe
+C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Release\FlappyBird.pdb
