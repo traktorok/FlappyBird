@@ -5,3 +5,10 @@ C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Debug\FlappyBird.csproj.As
 C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Debug\FlappyBird.csproj.CoreCompileInputs.cache
 C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Debug\FlappyBird.exe
 C:\Users\arongeo\Desktop\C#\FlappyBird\FlappyBird\obj\Debug\FlappyBird.pdb
+Z:\23-24\IKT\FlappyBird\FlappyBird\bin\Debug\FlappyBird.exe.config
+Z:\23-24\IKT\FlappyBird\FlappyBird\bin\Debug\FlappyBird.exe
+Z:\23-24\IKT\FlappyBird\FlappyBird\bin\Debug\FlappyBird.pdb
+Z:\23-24\IKT\FlappyBird\FlappyBird\obj\Debug\FlappyBird.csproj.AssemblyReference.cache
+Z:\23-24\IKT\FlappyBird\FlappyBird\obj\Debug\FlappyBird.csproj.CoreCompileInputs.cache
+Z:\23-24\IKT\FlappyBird\FlappyBird\obj\Debug\FlappyBird.exe
+Z:\23-24\IKT\FlappyBird\FlappyBird\obj\Debug\FlappyBird.pdb

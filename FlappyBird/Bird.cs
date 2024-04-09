@@ -30,14 +30,6 @@ namespace FlappyBird
             get { return _xPos; }
         }
 
-        public byte BirdGFX
-        {
-            get
-            {
-                return (byte)'@';
-            }
-        }
-
         public Bird(int startXPos, double startYPos)
         {
             this._xPos = startXPos;
@@ -50,8 +42,11 @@ namespace FlappyBird
             this._jumpsLeft += JUMP_SIZE;
         }
 
-        public void Tick()
+        public int Tick(byte[] framebuffer)
         {
+            if (0 < this.YPos)
+                framebuffer[(this.YPos * Console.WindowWidth) + this.XPos] = (byte)' ';
+
             if (0 < _jumpsLeft)
             {
                 this._yPos -= JUMP_PER_TICK;
@@ -60,6 +55,16 @@ namespace FlappyBird
             {
                 this._yPos += FALL_PER_TICK;
             }
+
+            if (0 < this.YPos)
+                framebuffer[(this.YPos * Console.WindowWidth) + this.XPos] = (byte)'@';
+
+            if ((Console.WindowHeight - 1) < YPos)
+            {
+                return -1;
+            }
+
+            return 0;
         }
     }
 }
