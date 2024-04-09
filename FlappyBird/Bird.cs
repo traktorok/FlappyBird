@@ -44,8 +44,7 @@ namespace FlappyBird
 
         public int Tick(byte[] framebuffer)
         {
-            if (0 < this.YPos)
-                framebuffer[(this.YPos * Console.WindowWidth) + this.XPos] = (byte)' ';
+            int prevYPos = this.YPos;
 
             if (0 < _jumpsLeft)
             {
@@ -56,13 +55,19 @@ namespace FlappyBird
                 this._yPos += FALL_PER_TICK;
             }
 
+            if (this.YPos == prevYPos)
+            {
+                return 0;
+            }
+
+            if (0 < prevYPos)
+                framebuffer[(prevYPos * Console.WindowWidth) + this.XPos] = (byte)' ';
+
+            if ((Console.WindowHeight - 2) < YPos)
+                return -1;
+
             if (0 < this.YPos)
                 framebuffer[(this.YPos * Console.WindowWidth) + this.XPos] = (byte)'@';
-
-            if ((Console.WindowHeight - 1) < YPos)
-            {
-                return -1;
-            }
 
             return 0;
         }

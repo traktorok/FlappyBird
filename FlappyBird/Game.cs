@@ -10,7 +10,7 @@ namespace FlappyBird
 {
     class Game
     {
-        private const int FRAME_RATE = 10;
+        private const int FRAME_RATE = 25;
 
         public byte[] Framebuffer { get; set; }
         
@@ -19,6 +19,8 @@ namespace FlappyBird
         private Bird Faby { get; set; } // A Google szerint a madár neve Faby.
 
         private Stream _stdOut;
+
+        private Random _rng;
 
         public Game()
         {
@@ -37,6 +39,12 @@ namespace FlappyBird
             this.Faby = new Bird(birdStartPosX, birdStartPosY);
             this.Framebuffer[CalculatePosition(birdStartPosX, birdStartPosY)] = (byte)'@';
 
+            this.Pillars = new List<Pillar>();
+
+            this._rng = new Random();
+
+            this.Pillars.Add(new Pillar(this._rng));
+
             this.Render();
         }
 
@@ -49,7 +57,8 @@ namespace FlappyBird
 
             while (running)
             {
-                Thread.Sleep((1000 / FRAME_RATE) - (int)((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - now));
+                int duration = (1000 / FRAME_RATE) - (int)((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - now);
+                Thread.Sleep(Math.Abs(duration));
                 this.Render();
                 now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
@@ -65,12 +74,14 @@ namespace FlappyBird
                     else if (consoleKey.Key == ConsoleKey.Spacebar)
                     {
                         Faby.Jump();
+                        Console.Beep(800, 20);
                     }
                 }
 
-                Faby.Tick(this.Framebuffer);
+                if (Faby.Tick(this.Framebuffer) == -1)
+                    return;
 
-                foreach (var pillar in Pillars)
+                foreach (var pillar in this.Pillars)
                 {
                     pillar.Tick(this.Framebuffer);
                 }

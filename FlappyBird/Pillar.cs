@@ -12,6 +12,12 @@ namespace FlappyBird
 
         private int YPos { get; set; }
 
+        public Pillar(Random rng)
+        {
+            this.XPos = Console.BufferWidth - 1;
+            this.YPos = rng.Next(Console.BufferHeight - 1); 
+        }
+
         public void Tick(byte[] framebuffer)
         {
 
