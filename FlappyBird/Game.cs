@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace FlappyBird
 {
@@ -21,6 +22,8 @@ namespace FlappyBird
         private Stream _stdOut;
 
         private Random _rng;
+
+        public int Counter { set; get; }
 
         public Game()
         {
@@ -45,6 +48,8 @@ namespace FlappyBird
 
             this.Pillars.Add(new Pillar(this._rng));
 
+            this.Counter = 0;
+
             this.Render();
         }
 
@@ -53,14 +58,22 @@ namespace FlappyBird
             Console.ReadKey();
 
             bool running = true;
-            long now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+            Stopwatch measure = new Stopwatch();
+            measure.Start();
+            long dur = measure.ElapsedMilliseconds;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             while (running)
             {
-                int duration = (1000 / FRAME_RATE) - (int)((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - now);
-                Thread.Sleep(Math.Abs(duration));
+                // System.Diagnostics.Stopwatch
+                
+                Thread.Sleep((1000/FRAME_RATE) - (int)(dur - measure.ElapsedMilliseconds));
+                measure = new Stopwatch();
+                measure.Start();
                 this.Render();
-                now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
                 if (Console.KeyAvailable)
                 {
@@ -77,6 +90,8 @@ namespace FlappyBird
                     }
                 }
 
+                //Thread.Sleep(50);
+
                 for (int i = 0; i < this.Pillars.Count; i++)
                 {
                     switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby))
@@ -87,12 +102,25 @@ namespace FlappyBird
                         case -2:
                             running = false;
                             break;
+                        case 1:
+                            Pillars.Add(new Pillar(this._rng));
+                            this.Counter++;
+                            break;
                     }
-                        
-                }
 
+                }
+                
                 if (Faby.Tick(this.Framebuffer) == -1)
+                    return; 
+                  
+                /*
+                a++;
+                File.AppendAllText("log.txt", $"{a}. {duration + (1000/FRAME_RATE)} {dur} \n");
+                if (1000 < stopwatch.ElapsedMilliseconds)
+                {
                     return;
+                }
+                */
 
                 Console.SetCursorPosition(0, 0);
             }

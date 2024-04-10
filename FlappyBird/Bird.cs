@@ -9,7 +9,7 @@ namespace FlappyBird
     class Bird
     {
         private const int JUMP_SIZE = 3;
-        private const double FALL_PER_TICK = 0.4;
+        private const double FALL_PER_TICK = 0.6;
         private const double JUMP_PER_TICK = 1.0;
 
         // Az X es Y poziciok invertalva vannak, mert a Console origoja az a bal felso sarok.
