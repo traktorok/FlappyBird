@@ -10,7 +10,7 @@ namespace FlappyBird
 {
     class Game
     {
-        private const int FRAME_RATE = 25;
+        private const int FRAME_RATE = 30;
 
         public byte[] Framebuffer { get; set; }
         
@@ -74,18 +74,26 @@ namespace FlappyBird
                     else if (consoleKey.Key == ConsoleKey.Spacebar)
                     {
                         Faby.Jump();
-                        Console.Beep(800, 20);
                     }
+                }
+
+                for (int i = 0; i < this.Pillars.Count; i++)
+                {
+                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby))
+                    {
+                        case -1:
+                            Pillars.RemoveAt(i);
+                            break;
+                        case -2:
+                            running = false;
+                            break;
+                    }
+                        
                 }
 
                 if (Faby.Tick(this.Framebuffer) == -1)
                     return;
 
-                foreach (var pillar in this.Pillars)
-                {
-                    pillar.Tick(this.Framebuffer);
-                }
-                
                 Console.SetCursorPosition(0, 0);
             }
         }
