@@ -11,7 +11,7 @@ namespace FlappyBird
 {
     class Game
     {
-        private const int FRAME_RATE = 20;
+        private const int FRAME_RATE_CAP = 500;
 
         public byte[] Framebuffer { get; set; }
         
@@ -41,6 +41,10 @@ namespace FlappyBird
 
             this.Faby = new Bird(birdStartPosX, birdStartPosY);
             this.Framebuffer[CalculatePosition(birdStartPosX, birdStartPosY)] = (byte)'@';
+
+            for (int i = 0; i < Console.WindowWidth; i++) {
+                this.Framebuffer[CalculatePosition(i, Console.WindowHeight - 2)] = (byte)'#';
+            }
 
             this.Pillars = new List<Pillar>();
 
@@ -73,10 +77,11 @@ namespace FlappyBird
             {
                 // System.Diagnostics.Stopwatch
 
-                int deltaTime = (int)measure.ElapsedMilliseconds + 1;
+                double deltaTime = (measure.ElapsedMilliseconds / 1000.0);
+                deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Ha a deltaTime 0 a jatek lefagy, ugyhogy ilyen esetben manualisan felulirjuk
+                File.AppendAllText("log.txt", $"test {deltaTime} \n");
                 //Thread.Sleep((1000 / FRAME_RATE) - deltaTime);
                 measure = new Stopwatch();
-                File.AppendAllText("log.txt", $"test {measure.ElapsedMilliseconds} \n");
                 measure.Start();
                 this.Render();
 
@@ -95,11 +100,12 @@ namespace FlappyBird
                     }
                 }
 
-                //Thread.Sleep(50);
+                Thread.Sleep(1); // Ha a deltaTime 0 lenne (gyakoribb, mind hittem), akkor azert,
+                                 // hogy a key inputot ne ugorjuk at ez kell
 
                 for (int i = 0; i < this.Pillars.Count; i++)
                 {
-                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby, deltaTime))
+                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby, deltaTime, this.Pillars.Count))
                     {
                         case -1:
                             Pillars.RemoveAt(i);
@@ -108,8 +114,11 @@ namespace FlappyBird
                             running = false;
                             break;
                         case 1:
-                            Pillars.Add(new Pillar(this._rng));
-                            this.Counter++;
+                            if (Pillars.Count < 2)
+                            {
+                                Pillars.Add(new Pillar(this._rng));
+                                this.Counter++;
+                            }
                             break;
                     }
 

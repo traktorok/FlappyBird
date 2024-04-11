@@ -26,9 +26,9 @@ namespace FlappyBird
             this.YPos = rng.Next(Console.WindowHeight - 1); 
         }
 
-        public int Tick(byte[] framebuffer, Bird faby, int deltaTime)
+        public int Tick(byte[] framebuffer, Bird faby, double deltaTime, int ars)
         {
-            int prevXPos = this.XPos;
+            int prevXPos = this.XPos < 0 ? 0 : this.XPos ;
             int retVal = 0;
 
             if (faby.XPos == this.XPos && ((this.YPos - OPENING_SIZE) < faby.YPos && faby.YPos < (this.YPos + OPENING_SIZE))) {
@@ -38,13 +38,13 @@ namespace FlappyBird
                 return -2;
             }
 
-            _xPos -= Math.Pow(1.0, deltaTime * 2);
+            _xPos -= 30.0 * deltaTime;
 
-            if (this.XPos < 0)
+            if (this.XPos <= 0)
             {
-                for (int i = 0; i < Console.WindowHeight - 1; i++)
+                for (int i = 0; i < Console.WindowHeight - 2; i++)
                 {
-                    if (prevXPos < (Console.WindowWidth - 1) && !((this.YPos - OPENING_SIZE) < i && i < (this.YPos + OPENING_SIZE)))
+                    if (prevXPos < (Console.WindowWidth) && !(i < (this.YPos - OPENING_SIZE) && (this.YPos + OPENING_SIZE) < i)) // Itt van valami amire majd ra kene nezni
                     {
                         framebuffer[(i * Console.WindowWidth) + prevXPos] = (byte)' ';
                     }
@@ -53,14 +53,14 @@ namespace FlappyBird
                 return -1;
             }
 
-            for (int i = 0; i < Console.WindowHeight - 1; i++)
+            for (int i = 0; i < Console.WindowHeight - 2; i++)
             {
-                if (!((this.YPos - OPENING_SIZE) < i && i < (this.YPos + OPENING_SIZE)) && prevXPos < (Console.WindowWidth - 1))
+                if (!((this.YPos - OPENING_SIZE) < i && i < (this.YPos + OPENING_SIZE)) && prevXPos < (Console.WindowWidth))
                 {
                     framebuffer[(i * Console.WindowWidth) + prevXPos] = (byte)' ';
                 }
 
-                if ((Console.WindowWidth - 1) < this.XPos)
+                if (Console.WindowWidth < this.XPos)
                 {
                     framebuffer[(i * Console.WindowWidth) + this.XPos] = (byte)'#';
                 }
@@ -71,7 +71,7 @@ namespace FlappyBird
                 }
                 else
                 {
-                    framebuffer[(i * Console.WindowWidth) + this.XPos] = (byte)'#';
+                     framebuffer[(i * Console.WindowWidth) + this.XPos] = (byte)'#';
                 }
             }
 
