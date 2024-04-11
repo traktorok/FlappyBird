@@ -11,7 +11,7 @@ namespace FlappyBird
 {
     class Game
     {
-        private const int FRAME_RATE = 30;
+        private const int FRAME_RATE = 20;
 
         public byte[] Framebuffer { get; set; }
         
@@ -44,7 +44,7 @@ namespace FlappyBird
 
             this.Pillars = new List<Pillar>();
 
-            this._rng = new Random();
+            this._rng = new Random(); 
 
             this.Pillars.Add(new Pillar(this._rng));
 
@@ -56,6 +56,7 @@ namespace FlappyBird
         public void Run()
         {
             Console.ReadKey();
+            File.WriteAllText("log.txt", "");
 
             bool running = true;
 
@@ -66,12 +67,16 @@ namespace FlappyBird
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            int a = 0;
+
             while (running)
             {
                 // System.Diagnostics.Stopwatch
-                
-                Thread.Sleep((1000/FRAME_RATE) - (int)(dur - measure.ElapsedMilliseconds));
+
+                int deltaTime = (int)measure.ElapsedMilliseconds + 1;
+                //Thread.Sleep((1000 / FRAME_RATE) - deltaTime);
                 measure = new Stopwatch();
+                File.AppendAllText("log.txt", $"test {measure.ElapsedMilliseconds} \n");
                 measure.Start();
                 this.Render();
 
@@ -94,7 +99,7 @@ namespace FlappyBird
 
                 for (int i = 0; i < this.Pillars.Count; i++)
                 {
-                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby))
+                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby, deltaTime))
                     {
                         case -1:
                             Pillars.RemoveAt(i);
@@ -110,17 +115,17 @@ namespace FlappyBird
 
                 }
                 
-                if (Faby.Tick(this.Framebuffer) == -1)
+                if (Faby.Tick(this.Framebuffer, deltaTime) == -1)
                     return; 
                   
                 /*
                 a++;
-                File.AppendAllText("log.txt", $"{a}. {duration + (1000/FRAME_RATE)} {dur} \n");
+                File.AppendAllText("log.txt", $"{a}. {(1000/FRAME_RATE) - measure.ElapsedMilliseconds} {measure.ElapsedMilliseconds} \n");
                 if (1000 < stopwatch.ElapsedMilliseconds)
                 {
                     return;
-                }
-                */
+                }*/
+                
 
                 Console.SetCursorPosition(0, 0);
             }
