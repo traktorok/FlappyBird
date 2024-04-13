@@ -57,7 +57,7 @@ namespace FlappyBird
             this.Render();
         }
 
-        public void Run()
+        public int Run()
         {
             Console.ReadKey();
             File.WriteAllText("log.txt", "");
@@ -66,13 +66,11 @@ namespace FlappyBird
 
             Stopwatch measure = new Stopwatch();
             measure.Start();
-            long dur = measure.ElapsedMilliseconds;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             int a = 0;
-
             while (running)
             {
                 // System.Diagnostics.Stopwatch
@@ -114,18 +112,19 @@ namespace FlappyBird
                             running = false;
                             break;
                         case 1:
-                            if (Pillars.Count < 2)
+                            if (!this.Pillars[i].Passed)
                             {
                                 Pillars.Add(new Pillar(this._rng));
                                 this.Counter++;
+                                this.Pillars[i].Passed = true;
                             }
                             break;
                     }
 
                 }
-                
+
                 if (Faby.Tick(this.Framebuffer, deltaTime) == -1)
-                    return; 
+                    return this.Counter; 
                   
                 /*
                 a++;
@@ -138,6 +137,8 @@ namespace FlappyBird
 
                 Console.SetCursorPosition(0, 0);
             }
+
+            return this.Counter;
         }
 
         private int CalculatePosition(int x, int y)

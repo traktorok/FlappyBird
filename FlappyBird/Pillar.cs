@@ -11,7 +11,8 @@ namespace FlappyBird
         private const int OPENING_SIZE = 5;
 
         private double _xPos;
-        
+
+        public bool Passed { get; set; }
         private int XPos { get
             {
                 return (int)Math.Round(_xPos);
@@ -23,7 +24,8 @@ namespace FlappyBird
         public Pillar(Random rng)
         {
             _xPos = Console.WindowWidth - 1;
-            this.YPos = rng.Next(Console.WindowHeight - 1); 
+            this.YPos = rng.Next(Console.WindowHeight - 1);
+            this.Passed = false;
         }
 
         public int Tick(byte[] framebuffer, Bird faby, double deltaTime, int ars)
@@ -71,7 +73,7 @@ namespace FlappyBird
                 }
                 else
                 {
-                     framebuffer[(i * Console.WindowWidth) + this.XPos] = (byte)'#';
+                    framebuffer[(i * Console.WindowWidth) + this.XPos] = (byte)'#';
                 }
             }
 
