@@ -22,9 +22,12 @@ namespace FlappyBird
         private Stream _stdOut;
 
         private Random _rng;
-
         public int Counter { set; get; }
 
+        /// <summary>
+        /// A Game konstruktor, elokesziti a konzolt, beallitja a jatek kezdeti
+        /// allapotat.
+        /// </summary>
         public Game()
         {
             Console.CursorVisible = false;
@@ -57,23 +60,34 @@ namespace FlappyBird
             this.Render();
         }
 
+        /// <summary>
+        /// A jatek fo ciklusa, amely figyeli a lenyomott billentyuket, es kirajzoltatja a kepet.
+        /// </summary>
+        /// <returns>A kikerult oszlopok szama.</returns>
         public int Run()
         {
             Console.ReadKey();
 
             bool running = true;
 
+            // Ezzel merem az idot a frame-ek kozott, mert a DateTime valamiert nem
+            // mukodott.
             Stopwatch measure = new Stopwatch();
             measure.Start();
 
             while (running)
             {
+                // A legutobbi frame renderelesetol eltelt ido
                 double deltaTime = (measure.ElapsedMilliseconds / 1000.0);
-                deltaTime = deltaTime == 0 ? 0.001 : deltaTime;
+                deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Erdekes deltaTime megoldas
                 measure = new Stopwatch();
                 measure.Start();
+
+                // Kirajzoljuk a framebuffert
                 this.Render();
 
+                // Van-e lenyomva billenttyu, ha igen, akkor,
+                // ha Esc lepjen ki, ha space ugrassa a madarat
                 if (Console.KeyAvailable)
                 {
                     var consoleKey = Console.ReadKey();
@@ -92,6 +106,8 @@ namespace FlappyBird
                 Thread.Sleep(1); // Ha a deltaTime 0 lenne (gyakoribb, mind hittem), akkor azert,
                                  // hogy a key inputot ne ugorjuk at ez kell
 
+                // Vegigmegyunk az oszlopokon es mindegyiknek meghivjuk a Tick metodusat, hogy
+                // igy arrebb menjenek
                 for (int i = 0; i < this.Pillars.Count; i++)
                 {
                     switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby, deltaTime, this.Pillars.Count))
@@ -114,6 +130,8 @@ namespace FlappyBird
 
                 }
 
+                // A madaron is meghivjuk a Tick fuggvenyt, ha -1-et ad vissza
+                // akkor beleutkozott valamibe, es igy vege a jateknak
                 if (Faby.Tick(this.Framebuffer, deltaTime) == -1)
                     return this.Counter;
 
@@ -123,12 +141,21 @@ namespace FlappyBird
             return this.Counter;
         }
 
+        /// <summary>
+        /// Atkonvertalja a 2D array poziciot, 1 dimenzios
+        /// array poziciova
+        /// </summary>
+        /// <param name="x">2D pozicio X</param>
+        /// <param name="y">2D pozicio Y</param>
+        /// <returns>1D pozicio</returns>
         private int CalculatePosition(int x, int y)
         {
             return (y * Console.WindowWidth) + x;
         }
 
-
+        /// <summary>
+        /// Kirajzolja a Framebuffer array tartalmat.
+        /// </summary>
         private void Render()
         {
             _stdOut.Write(this.Framebuffer, 0, this.Framebuffer.Length);

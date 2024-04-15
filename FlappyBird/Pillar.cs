@@ -26,7 +26,8 @@ namespace FlappyBird
         public Pillar(Random rng)
         {
             _xPos = Console.WindowWidth - 1;
-            this.YPos = rng.Next(Console.WindowHeight - 1);
+            // Nem akarjuk, hogy a nyilas a kepen kivul keruljon ki
+            this.YPos = rng.Next(OPENING_SIZE + 1, Console.WindowHeight - 1);
             this.Passed = false;
         }
 

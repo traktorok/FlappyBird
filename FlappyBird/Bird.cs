@@ -18,6 +18,12 @@ namespace FlappyBird
         private double _yPos;
         private double _jumpsLeft;
 
+        /// <summary>
+        /// Az Y pozicio alapbol double, azaz tort szam, de
+        /// ahhoz, hogy kirajzolhassuk fel kell kerekitenunk
+        /// egy egesz szamra, az YPos property ezt teszi az _yPos
+        /// privat valtozoval.
+        /// </summary>
         public int YPos
         {
             get
@@ -26,11 +32,17 @@ namespace FlappyBird
             }
         }
 
+
         public int XPos
         {
             get { return _xPos; }
         }
 
+        /// <summary>
+        /// Beallitja a madar alappoziciojat, es alap allapotat
+        /// </summary>
+        /// <param name="startXPos">X alappozicio</param>
+        /// <param name="startYPos">Y alappozicio</param>
         public Bird(int startXPos, double startYPos)
         {
             this._xPos = startXPos;
@@ -38,11 +50,26 @@ namespace FlappyBird
             this._jumpsLeft = 0;
         }
 
+        /// <summary>
+        /// Felugrassza a madarat, mivel a felugras tobb
+        /// frame-en keresztul tortenik, igy csak beallitja,
+        /// hogy mennyi ideig kell ugrani.
+        /// </summary>
         public void Jump()
         {
             this._jumpsLeft += JUMP_SIZE;
         }
 
+        /// <summary>
+        /// Egy tick alkalmaval, feljebb vagy lejjebb viszi a madar poziciojat,
+        /// attol fuggoen, hogy van-e folyamatban ugras, vagy nincs, majd a kirajzolando
+        /// kepet a madarrol elhelyezi a framebufferben, az elozo pozicio rajzat pedig
+        /// letorli. Emellett a mozgasoknal figyelembe veszi a deltaTimeot, igy meg akkor
+        /// is ha lassabb gepen futtatjuk, ugyanannyit mozdul el.
+        /// </summary>
+        /// <param name="framebuffer">A Framebuffer, amibe be kell rajzolni a kialakult kepet.</param>
+        /// <param name="deltaTime">A deltaTime (elozo frame ota eltelt ido) szorzo.</param>
+        /// <returns>-1-et ad vissza, ha a madar utkozott valamivel, 0-at, ha nem.</returns>
         public int Tick(byte[] framebuffer, double deltaTime)
         {
             int prevYPos = this.YPos;
