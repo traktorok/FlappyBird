@@ -18,7 +18,7 @@ namespace FlappyBird
 
                 Console.Clear();
                 Console.WriteLine("GameOver");
-                Console.WriteLine($"Score: {score}");
+                Console.WriteLine($"Pontok: {score}");
 
                 var key = Console.ReadKey();
                 if (key.Key != ConsoleKey.R) {

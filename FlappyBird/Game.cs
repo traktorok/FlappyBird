@@ -60,25 +60,16 @@ namespace FlappyBird
         public int Run()
         {
             Console.ReadKey();
-            File.WriteAllText("log.txt", "");
 
             bool running = true;
 
             Stopwatch measure = new Stopwatch();
             measure.Start();
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            int a = 0;
             while (running)
             {
-                // System.Diagnostics.Stopwatch
-
                 double deltaTime = (measure.ElapsedMilliseconds / 1000.0);
-                deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Ha a deltaTime 0 a jatek lefagy, ugyhogy ilyen esetben manualisan felulirjuk
-                File.AppendAllText("log.txt", $"test {deltaTime} \n");
-                //Thread.Sleep((1000 / FRAME_RATE) - deltaTime);
+                deltaTime = deltaTime == 0 ? 0.001 : deltaTime;
                 measure = new Stopwatch();
                 measure.Start();
                 this.Render();
@@ -124,16 +115,7 @@ namespace FlappyBird
                 }
 
                 if (Faby.Tick(this.Framebuffer, deltaTime) == -1)
-                    return this.Counter; 
-                  
-                /*
-                a++;
-                File.AppendAllText("log.txt", $"{a}. {(1000/FRAME_RATE) - measure.ElapsedMilliseconds} {measure.ElapsedMilliseconds} \n");
-                if (1000 < stopwatch.ElapsedMilliseconds)
-                {
-                    return;
-                }*/
-                
+                    return this.Counter;
 
                 Console.SetCursorPosition(0, 0);
             }

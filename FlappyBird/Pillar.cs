@@ -10,6 +10,8 @@ namespace FlappyBird
     {
         private const int OPENING_SIZE = 5;
 
+        private const double MOVEMENT_PER_TICK = 30.0;
+
         private double _xPos;
 
         public bool Passed { get; set; }
@@ -33,14 +35,14 @@ namespace FlappyBird
             int prevXPos = this.XPos < 0 ? 0 : this.XPos ;
             int retVal = 0;
 
-            if (faby.XPos == this.XPos && ((this.YPos - OPENING_SIZE) < faby.YPos && faby.YPos < (this.YPos + OPENING_SIZE))) {
+            if (faby.XPos >= this.XPos && ((this.YPos - OPENING_SIZE) < faby.YPos && faby.YPos < (this.YPos + OPENING_SIZE)) && this.Passed == false) {
                 retVal = 1;
-            } else if (faby.XPos == this.XPos)
+            } else if (faby.XPos >= this.XPos && this.Passed == false)
             {
                 return -2;
             }
 
-            _xPos -= 30.0 * deltaTime;
+            _xPos -= MOVEMENT_PER_TICK * deltaTime;
 
             if (this.XPos <= 0)
             {
