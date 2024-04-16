@@ -30,6 +30,8 @@ namespace FlappyBird
         /// </summary>
         public Game()
         {
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             Console.CursorVisible = false;
 
             int width = Console.WindowWidth;
@@ -66,7 +68,17 @@ namespace FlappyBird
         /// <returns>A kikerult oszlopok szama.</returns>
         public int Run()
         {
-            Console.ReadKey();
+            while (true) {
+                var key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    return -1;
+                } else if (key.Key == ConsoleKey.Spacebar)
+                {
+                    break;
+                }
+            }
+            Console.SetCursorPosition(0, 0);
 
             bool running = true;
 
@@ -75,12 +87,15 @@ namespace FlappyBird
             Stopwatch measure = new Stopwatch();
             measure.Start();
 
+            this.Faby.Jump();
+
             while (running)
             {
                 // A legutobbi frame renderelesetol eltelt ido
                 double deltaTime = (measure.ElapsedMilliseconds / 1000.0);
-                deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Erdekes deltaTime megoldas
-                // deltaTime = 0.001; // Debughoz, 
+                deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Ha 0 a deltaTime (tul gyors a gep) minden lefagy
+                // deltaTime = 0.001; // Debughoz
+                
                 measure = new Stopwatch();
                 measure.Start();
 
@@ -95,8 +110,7 @@ namespace FlappyBird
 
                     if (consoleKey.Key == ConsoleKey.Escape)
                     {
-                        running = false;
-                        break;
+                        return -1;
                     }
                     else if (consoleKey.Key == ConsoleKey.Spacebar)
                     {
@@ -104,14 +118,14 @@ namespace FlappyBird
                     }
                 }
 
-                Thread.Sleep(1); // Ha a deltaTime 0 lenne (gyakoribb, mind hittem), akkor azert,
-                                 // hogy a key inputot ne ugorjuk at ez kell
+                Thread.Sleep(1); // Ha a deltaTime 0, akkor a bemenet bekereset valamiert at
+                                 // tudja ugrani, ez pedig valamiert ezt kepes ellensulyozni
 
                 // Vegigmegyunk az oszlopokon es mindegyiknek meghivjuk a Tick metodusat, hogy
                 // igy arrebb menjenek
                 for (int i = 0; i < this.Pillars.Count; i++)
                 {
-                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby, deltaTime, this.Pillars.Count))
+                    switch (this.Pillars[i].Tick(this.Framebuffer, this.Faby, deltaTime))
                     {
                         case -1:
                             Pillars.RemoveAt(i);
@@ -122,7 +136,7 @@ namespace FlappyBird
                         case 1:
                             // Kell a Passed, mivel lehet hogy nagyon alacsony
                             // deltaTimenal, elhanyagolhatot mozog, igy valojaban
-                            // ugyanott marad a madar, es ez tobbszor meghivodhat
+                            // ugyanott marad a madar, es ez tobbszor meghivodhat.
                             if (!this.Pillars[i].Passed)
                             {
                                 Pillars.Add(new Pillar(this._rng));
@@ -131,7 +145,6 @@ namespace FlappyBird
                             }
                             break;
                     }
-
                 }
 
                 // A madaron is meghivjuk a Tick fuggvenyt, ha -1-et ad vissza

@@ -11,19 +11,55 @@ namespace FlappyBird
     {
         static void Main(string[] args)
         {
-            while (true)
+            string jatekTitle = "Flappy Bird";
+            string jatekDescription = "Nyomd meg (egyesevel) a Space-t hogy ugorj, az Esc-el ki tudsz lepni.";
+            string kezdesDescription = "Ugorj a kezdeshez!";
+            string gameOverText = "Game Over!";
+            string kilepesText = "Nyomd meg az R-t az ujrainditashoz, vagy barmi mast a kilepeshez.";
+
+            try
             {
-                Game birdGame = new Game();
-                int score = birdGame.Run();
+                while (true)
+                {
+                    Game birdGame = new Game();
 
-                Console.Clear();
-                Console.WriteLine("GameOver");
-                Console.WriteLine($"Pontok: {score}");
+                    Console.SetCursorPosition((Console.WindowWidth - jatekTitle.Length) / 2, Console.WindowHeight / 4);
+                    Console.WriteLine(jatekTitle);
 
-                var key = Console.ReadKey();
-                if (key.Key != ConsoleKey.R) {
-                    break;
+                    Console.SetCursorPosition((Console.WindowWidth - jatekDescription.Length) / 2, (Console.WindowHeight / 4) * 3);
+                    Console.WriteLine(jatekDescription);
+
+                    Console.SetCursorPosition((Console.WindowWidth - kezdesDescription.Length) / 2, (Console.WindowHeight / 4) * 3 + 1);
+                    Console.WriteLine(kezdesDescription);
+
+                    int score = birdGame.Run();
+
+                    if (score == -1)
+                        return;
+
+                    string pontokText = $"Pontok: {score}";
+
+                    Console.Clear();
+
+                    Console.SetCursorPosition((Console.WindowWidth - gameOverText.Length) / 2, Console.WindowHeight / 2 - 1);
+                    Console.WriteLine(gameOverText);
+
+                    Console.SetCursorPosition((Console.WindowWidth - pontokText.Length) / 2, Console.WindowHeight / 2);
+                    Console.WriteLine(pontokText);
+
+                    Console.SetCursorPosition((Console.WindowWidth - kilepesText.Length) / 2, Console.WindowHeight / 2 + 1);
+                    Console.WriteLine(kilepesText);
+
+                    var key = Console.ReadKey();
+                    if (key.Key != ConsoleKey.R)
+                    {
+                        break;
+                    }
                 }
+            } catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine(ex.Message);
             }
         }
     }

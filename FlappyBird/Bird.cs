@@ -8,7 +8,7 @@ namespace FlappyBird
 {
     class Bird
     {
-        private const int JUMP_SIZE = 40;
+        private const int JUMP_SIZE = 4;
         private const double FALL_PER_TICK = 15.0;
         private const double JUMP_PER_TICK = 15.0;
         private const double JUMP_REDUCE_PER_TICK = 25.0;
@@ -61,7 +61,7 @@ namespace FlappyBird
         }
 
         /// <summary>
-        /// Egy tick alkalmaval, feljebb vagy lejjebb viszi a madar poziciojat,
+        /// Egy tick (azaz frame renderelesenek) alkalmaval, feljebb vagy lejjebb viszi a madar poziciojat,
         /// attol fuggoen, hogy van-e folyamatban ugras, vagy nincs, majd a kirajzolando
         /// kepet a madarrol elhelyezi a framebufferben, az elozo pozicio rajzat pedig
         /// letorli. Emellett a mozgasoknal figyelembe veszi a deltaTimeot, igy meg akkor
@@ -69,7 +69,7 @@ namespace FlappyBird
         /// </summary>
         /// <param name="framebuffer">A Framebuffer, amibe be kell rajzolni a kialakult kepet.</param>
         /// <param name="deltaTime">A deltaTime (elozo frame ota eltelt ido) szorzo.</param>
-        /// <returns>-1-et ad vissza, ha a madar utkozott valamivel, 0-at, ha nem.</returns>
+        /// <returns>-1-et ad vissza, ha a madar utkozott a talajjal, 0-at, ha nem.</returns>
         public int Tick(byte[] framebuffer, double deltaTime)
         {
             int prevYPos = this.YPos;
