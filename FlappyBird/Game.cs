@@ -80,6 +80,7 @@ namespace FlappyBird
                 // A legutobbi frame renderelesetol eltelt ido
                 double deltaTime = (measure.ElapsedMilliseconds / 1000.0);
                 deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Erdekes deltaTime megoldas
+                // deltaTime = 0.001; // Debughoz, 
                 measure = new Stopwatch();
                 measure.Start();
 
@@ -119,6 +120,9 @@ namespace FlappyBird
                             running = false;
                             break;
                         case 1:
+                            // Kell a Passed, mivel lehet hogy nagyon alacsony
+                            // deltaTimenal, elhanyagolhatot mozog, igy valojaban
+                            // ugyanott marad a madar, es ez tobbszor meghivodhat
                             if (!this.Pillars[i].Passed)
                             {
                                 Pillars.Add(new Pillar(this._rng));

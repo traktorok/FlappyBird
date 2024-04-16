@@ -8,7 +8,7 @@ namespace FlappyBird
 {
     class Bird
     {
-        private const int JUMP_SIZE = 4;
+        private const int JUMP_SIZE = 40;
         private const double FALL_PER_TICK = 15.0;
         private const double JUMP_PER_TICK = 15.0;
         private const double JUMP_REDUCE_PER_TICK = 25.0;
