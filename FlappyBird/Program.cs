@@ -11,8 +11,20 @@ namespace FlappyBird
     {
         static void Main(string[] args)
         {
-            Game birdGame = new Game();
-            birdGame.Run();
+            while (true)
+            {
+                Game birdGame = new Game();
+                int score = birdGame.Run();
+
+                Console.Clear();
+                Console.WriteLine("GameOver");
+                Console.WriteLine($"Pontok: {score}");
+
+                var key = Console.ReadKey();
+                if (key.Key != ConsoleKey.R) {
+                    break;
+                }
+            }
         }
     }
 }
