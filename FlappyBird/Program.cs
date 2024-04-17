@@ -23,14 +23,20 @@ namespace FlappyBird
                 {
                     Game birdGame = new Game();
 
-                    Console.SetCursorPosition((Console.WindowWidth - jatekTitle.Length) / 2, Console.WindowHeight / 4);
-                    Console.WriteLine(jatekTitle);
+                    try
+                    {
+                        Console.SetCursorPosition((Console.WindowWidth - jatekTitle.Length) / 2, Console.WindowHeight / 4);
+                        Console.WriteLine(jatekTitle);
 
-                    Console.SetCursorPosition((Console.WindowWidth - jatekDescription.Length) / 2, (Console.WindowHeight / 4) * 3);
-                    Console.WriteLine(jatekDescription);
+                        Console.SetCursorPosition((Console.WindowWidth - jatekDescription.Length) / 2, (Console.WindowHeight / 4) * 3);
+                        Console.WriteLine(jatekDescription);
 
-                    Console.SetCursorPosition((Console.WindowWidth - kezdesDescription.Length) / 2, (Console.WindowHeight / 4) * 3 + 1);
-                    Console.WriteLine(kezdesDescription);
+                        Console.SetCursorPosition((Console.WindowWidth - kezdesDescription.Length) / 2, (Console.WindowHeight / 4) * 3 + 1);
+                        Console.WriteLine(kezdesDescription);
+                    } catch (Exception)
+                    {
+                        // Nem irjuk ki, ha nem eleg szeles a konzol
+                    }
 
                     int score = birdGame.Run();
 
@@ -41,14 +47,22 @@ namespace FlappyBird
 
                     Console.Clear();
 
-                    Console.SetCursorPosition((Console.WindowWidth - gameOverText.Length) / 2, Console.WindowHeight / 2 - 1);
-                    Console.WriteLine(gameOverText);
+                    try
+                    {
+                        Console.SetCursorPosition((Console.WindowWidth - gameOverText.Length) / 2, Console.WindowHeight / 2 - 1);
+                        Console.WriteLine(gameOverText);
 
-                    Console.SetCursorPosition((Console.WindowWidth - pontokText.Length) / 2, Console.WindowHeight / 2);
-                    Console.WriteLine(pontokText);
+                        Console.SetCursorPosition((Console.WindowWidth - pontokText.Length) / 2, Console.WindowHeight / 2);
+                        Console.WriteLine(pontokText);
 
-                    Console.SetCursorPosition((Console.WindowWidth - kilepesText.Length) / 2, Console.WindowHeight / 2 + 1);
-                    Console.WriteLine(kilepesText);
+                        Console.SetCursorPosition((Console.WindowWidth - kilepesText.Length) / 2, Console.WindowHeight / 2 + 1);
+                        Console.WriteLine(kilepesText);
+                    } catch (Exception)
+                    {
+                        // Nem irjuk ki, ha nem eleg szeles a konzol
+                    }
+
+                    Thread.Sleep(1000);
 
                     var key = Console.ReadKey();
                     if (key.Key != ConsoleKey.R)
