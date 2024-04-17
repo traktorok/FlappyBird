@@ -12,10 +12,10 @@ namespace FlappyBird
         static void Main(string[] args)
         {
             string jatekTitle = "Flappy Bird";
-            string jatekDescription = "Nyomd meg (egyesevel) a Space-t hogy ugorj, az Esc-el ki tudsz lepni.";
-            string kezdesDescription = "Ugorj a kezdeshez!";
+            string jatekDescription = "Nyomd meg (egyesével) a Space-t hogy ugorj, az Esc-el ki tudsz lépni.";
+            string kezdesDescription = "Ugorj a kezdéshez!";
             string gameOverText = "Game Over!";
-            string kilepesText = "Nyomd meg az R-t az ujrainditashoz, vagy barmi mast a kilepeshez.";
+            string kilepesText = "Nyomd meg az R-t az újrainditáshoz, vagy bármi mást a kilépeshez.";
 
             try
             {
