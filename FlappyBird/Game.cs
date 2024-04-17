@@ -11,7 +11,7 @@ namespace FlappyBird
 {
     class Game
     {
-        private const int FRAME_RATE_CAP = 500;
+        private const int FRAME_RATE_CAP = 60;
 
         public byte[] Framebuffer { get; set; }
         
@@ -93,9 +93,9 @@ namespace FlappyBird
             {
                 // A legutobbi frame renderelesetol eltelt ido
                 double deltaTime = (measure.ElapsedMilliseconds / 1000.0);
-                deltaTime = deltaTime == 0 ? 0.001 : deltaTime; // Ha 0 a deltaTime (tul gyors a gep) minden lefagy
+                deltaTime = deltaTime == 0 ? 1.0/FRAME_RATE_CAP : deltaTime; // Ha 0 a deltaTime (tul gyors a gep) minden lefagy
                 // deltaTime = 0.001; // Debughoz
-                
+
                 measure = new Stopwatch();
                 measure.Start();
 
